@@ -1,21 +1,22 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Todo from "../../modal/Todo";
+import TodoContext from "../../store/TodoContext";
 import TodoItem from "./TodoItem";
 
-interface TodosProps {
-  state: {
-    todos: Todo[];
-  };
-  actions: {
-    onRemoveTodo: (id: string) => void;
-  };
-}
+// interface TodosProps {
+//   state: {
+//     todos: Todo[];
+//   };
+//   actions: {
+//     onRemoveTodo: (id: string) => void;
+//   };
+// }
 
-const Todos: React.FC<TodosProps> = (props) => {
-  const { todos = [] } = props.state;
-  const { onRemoveTodo } = props.actions;
-  //   console.log(todos);
+const Todos: React.FC = () => {
+  const todoCtx = useContext(TodoContext);
+
+  const { todos = [], onRemoveTodo } = todoCtx;
 
   return (
     <View style={styles.container}>
