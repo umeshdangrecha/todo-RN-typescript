@@ -9,22 +9,16 @@ import {
   Alert,
 } from "react-native";
 import { BottomSheet } from "react-native-btr";
-import TodoContext from "../../store/TodoContext";
 import theme from "../../theme/theme";
 import _ from "lodash";
 
-// interface AddTodoProps {
-//   actions: {
-//     onAddTodo: (title: string) => void;
-//   };
-// }
+//redux imports
+import { useDispatch } from "react-redux";
+import { addTodo } from "../../store/actions/todo";
 
 const AddTodo: React.FC = (props) => {
-  const todoCtx = useContext(TodoContext);
-
+  const dispatch = useDispatch();
   const btnLabel = "ADD TODO";
-
-  const { onAddTodo } = todoCtx;
 
   const [isShow, setShow] = useState(false);
   const [value, setValue] = useState("");
@@ -42,10 +36,10 @@ const AddTodo: React.FC = (props) => {
     }
     setShow(false);
     setValue("");
-    onAddTodo(title);
+    dispatch(addTodo(title));
   };
   return (
-    <KeyboardAvoidingView keyboardVerticalOffset={50}>
+    <KeyboardAvoidingView keyboardVerticalOffset={20}>
       <View style={styles.container}>
         <TouchableOpacity onPress={toggleBS} style={styles.addBtnWrapper}>
           <Text style={styles.addBtnText}>{btnLabel}</Text>
@@ -97,7 +91,8 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     width: "100%",
-    height: "20%",
+    height: "40%",
+    maxHeight: "50%",
     backgroundColor: theme.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

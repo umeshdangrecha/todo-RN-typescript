@@ -1,23 +1,21 @@
 import React, { useContext } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Todo from "../../modal/Todo";
-import TodoContext from "../../store/TodoContext";
 import TodoItem from "./TodoItem";
-
-// interface TodosProps {
-//   state: {
-//     todos: Todo[];
-//   };
-//   actions: {
-//     onRemoveTodo: (id: string) => void;
-//   };
-// }
+import { removeTodo } from "../../store/actions/todo";
+import { useSelector, useDispatch } from "react-redux";
+import { RootReducerInterface } from "../../interfaces/redux-interfaces";
 
 const Todos: React.FC = () => {
-  const todoCtx = useContext(TodoContext);
+  const state = useSelector((state: RootReducerInterface) => state.todo);
+  const dispatch = useDispatch();
+  const todos = state.todos;
 
-  const { todos = [], onRemoveTodo } = todoCtx;
+  const onRemoveTodo = (id: string) => {
+    dispatch(removeTodo(id));
+  };
 
+  // return <Text>hellp</Text>;
   return (
     <View style={styles.container}>
       {todos.map((item) => (
