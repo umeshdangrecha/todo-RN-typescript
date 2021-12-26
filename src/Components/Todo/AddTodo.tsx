@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  Keyboard,
   Alert,
 } from "react-native";
 import { BottomSheet } from "react-native-btr";
@@ -34,6 +35,7 @@ const AddTodo: React.FC = (props) => {
       Alert.alert("Empty Title", "Please provide an title to add todo");
       return;
     }
+    Keyboard.dismiss();
     setShow(false);
     setValue("");
     dispatch(addTodo(title));

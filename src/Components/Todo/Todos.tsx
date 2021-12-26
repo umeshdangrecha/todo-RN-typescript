@@ -1,10 +1,17 @@
 import React, { useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  ListRenderItemInfo,
+} from "react-native";
 import Todo from "../../modal/Todo";
 import TodoItem from "./TodoItem";
 import { removeTodo } from "../../store/actions/todo";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerInterface } from "../../interfaces/redux-interfaces";
+import { pickImageByIndex } from "../../data/images";
 
 const Todos: React.FC = () => {
   const state = useSelector((state: RootReducerInterface) => state.todo);
@@ -16,23 +23,47 @@ const Todos: React.FC = () => {
   };
 
   // return <Text>hellp</Text>;
+
+  const renderItem = React.useCallback((item: ListRenderItemInfo<Todo>) => {
+    return (
+      <TodoItem
+        state={{ title: item.item.title, image: pickImageByIndex(item.index) }}
+        actions={{ onRemoveTodo: onRemoveTodo.bind(null, item.item.id) }}
+      />
+    );
+  }, []);
+
   return (
-    <View style={styles.container}>
-      {todos.map((item) => (
-        <TodoItem
-          key={item.id}
-          state={{ title: item.title }}
-          actions={{ onRemoveTodo: onRemoveTodo.bind(null, item.id) }}
-        />
-      ))}
-    </View>
+    <FlatList
+      style={styles.container}
+      contentContainerStyle={styles.contentStyle}
+      data={todos}
+      showsVerticalScrollIndicator={false}
+      numColumns={2}
+      // keyExtractor={(item) => item.id}
+      renderItem={renderItem}
+    />
   );
+  // return (
+  //   <View style={styles.container}>
+  //     {todos.map((item) => (
+
+  //     ))}
+  //   </View>
+  // );
 };
 
 export default Todos;
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: "90%",
+    alignSelf: "center",
+    flex: 1,
+    height: "100%",
+  },
+  contentStyle: {
+    alignItems: "stretch",
+    justifyContent: "space-between",
   },
 });

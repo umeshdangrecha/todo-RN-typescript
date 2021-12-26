@@ -10,9 +10,9 @@ export default function App() {
     <Provider store={store}>
       <View style={styles.container}>
         <Text style={styles.title}>All Todos</Text>
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.todos}>
+        <View style={styles.todos}>
           <Todos />
-        </ScrollView>
+        </View>
         <View style={styles.addTodo}>
           <AddTodo />
         </View>
