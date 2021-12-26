@@ -1,26 +1,30 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Button,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { BottomSheet } from "react-native-btr";
+import TodoContext from "../../store/TodoContext";
 import theme from "../../theme/theme";
+import _ from "lodash";
 
-interface AddTodoProps {
-  actions: {
-    onAddTodo: (title: string) => void;
-  };
-}
+// interface AddTodoProps {
+//   actions: {
+//     onAddTodo: (title: string) => void;
+//   };
+// }
 
-const AddTodo: React.FC<AddTodoProps> = (props) => {
+const AddTodo: React.FC = (props) => {
+  const todoCtx = useContext(TodoContext);
+
   const btnLabel = "ADD TODO";
 
-  const { onAddTodo } = props.actions;
+  const { onAddTodo } = todoCtx;
 
   const [isShow, setShow] = useState(false);
   const [value, setValue] = useState("");
@@ -31,6 +35,11 @@ const AddTodo: React.FC<AddTodoProps> = (props) => {
 
   const onSubmit = () => {
     const title = value;
+
+    if (_.isEmpty(title)) {
+      Alert.alert("Empty Title", "Please provide an title to add todo");
+      return;
+    }
     setShow(false);
     setValue("");
     onAddTodo(title);
