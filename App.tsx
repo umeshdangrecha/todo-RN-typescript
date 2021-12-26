@@ -2,21 +2,22 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import AddTodo from "./src/Components/Todo/AddTodo";
 import Todos from "./src/Components/Todo/Todos";
 import theme from "./src/theme/theme";
-import TodoContextProvider from "./src/store/TodoContextProvider";
+import { Provider } from "react-redux";
+import store from "./src/store/configureStore";
 
 export default function App() {
   return (
-    <TodoContextProvider>
+    <Provider store={store}>
       <View style={styles.container}>
         <Text style={styles.title}>All Todos</Text>
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.todos}>
+        <View style={styles.todos}>
           <Todos />
-        </ScrollView>
+        </View>
         <View style={styles.addTodo}>
           <AddTodo />
         </View>
       </View>
-    </TodoContextProvider>
+    </Provider>
   );
 }
 
